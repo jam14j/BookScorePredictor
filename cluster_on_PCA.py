@@ -1,23 +1,30 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Apr 24 11:09:52 2020
+Need to run PCA before this (havent actually imported module/data here)
+@author: Admin
+"""
+
 import pandas as pd
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import numpy as np
 
-fields =['num_critic_for_reviews', 'duration','gross','facenumber_in_poster',
-         'budget','movie_facebook_likes','imdb_score']
-df = pd.read_csv("movie_metadata.csv", usecols=fields)
-df.dropna(inplace=True)
-df.reset_index(drop=True, inplace=True)
+# fields =['num_critic_for_reviews', 'duration','gross','facenumber_in_poster',
+#          'budget','movie_facebook_likes','imdb_score']
+# df = pd.read_csv("movie_metadata.csv", usecols=fields)
+# df.dropna(inplace=True)
+# df.reset_index(drop=True, inplace=True)
 # following tutorial:
 # https://towardsdatascience.com/k-means-clustering-with-scikit-learn-6b47a369a83c
-X = np.array([df['gross'],df['imdb_score']]).T
+X = np.array([finalDf['principal component 1'],finalDf['imdb_score']]).T
 km = KMeans(n_clusters=3)
 y_km = km.fit_predict(X)
 
 
 # plot the 3 clusters
 fig = plt.figure()
-plt.xlabel("Gross revenue")
+plt.xlabel("Principal Component 1")
 plt.ylabel("IMDB score")
 plt.scatter(
     X[y_km == 0, 0], X[y_km == 0, 1],

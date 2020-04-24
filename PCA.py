@@ -13,21 +13,21 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 # Loading required data prettily
-url = "C:/Users/mibid/Documents/GitHub/BookScorePredictor/movie_metadata.csv"
-col = ['num_critic_for_reviews', 'duration','gross','facenumber_in_poster','budget','movie_facebook_likes','imdb_score']
-df = pd.read_csv(url, skipinitialspace=True, usecols=col)
-df.rename(
-    columns={
-        "num_critic_for_reviews": "num_reviews",
-        "facenumber_in_poster": "num_faces",
-        "movie_facebook_likes": "fb_likes",
-    },
-    inplace=True
-)
-df.dropna(inplace = True)
-df.reset_index(drop=True,inplace=True)
-features = list(df.columns)
-features.remove("imdb_score")
+# url = "C:/Users/mibid/Documents/GitHub/BookScorePredictor/movie_metadata.csv"
+# col = ['num_critic_for_reviews', 'duration','gross','facenumber_in_poster','budget','movie_facebook_likes','imdb_score']
+# df = pd.read_csv(url, skipinitialspace=True, usecols=col)
+# df.rename(
+#     columns={
+#         "num_critic_for_reviews": "num_reviews",
+#         "facenumber_in_poster": "num_faces",
+#         "movie_facebook_likes": "fb_likes",
+#     },
+#     inplace=True
+# )
+# df.dropna(inplace = True)
+# df.reset_index(drop=True,inplace=True)
+# features = list(df.columns)
+# features.remove("imdb_score")
 
 # Standardizing Data
 x = df.loc[:, features].values
@@ -40,7 +40,7 @@ principalComponents = pca.fit_transform(x)
 principalDf = pd.DataFrame(data = principalComponents, columns = ['principal component 1', 'principal component 2'])
 finalDf = pd.concat([principalDf, df['imdb_score']], axis = 1)
 
-# Visualizing Data
+# Visualizing Data: PCA components with different ratings (try plotting each in a different graph)
 fig = plt.figure(figsize = (8,8))
 ax = fig.add_subplot(1,1,1) 
 ax.set_xlabel('Principal Component 1', fontsize = 15)
@@ -62,18 +62,33 @@ for minscore, maxscore, color in zip(scores,scores[1:], colors):
 ax.legend(scores)
 ax.grid()
 
-
+# Visualizing Data: PCA component 1 vs IMDB score
 fig2 = plt.figure(figsize = (8,8))
 ax2 = fig2.add_subplot(1,1,1) 
 ax2.set_xlabel('Principal Component 1', fontsize = 15)
 ax2.set_ylabel('IMDB Score', fontsize = 15)
-ax2.set_title('Principal Component 2 vs IMDB Score', fontsize = 20)
+ax2.set_title('Principal Component 1 vs IMDB Score', fontsize = 20)
 plt.scatter(finalDf['principal component 1'], finalDf['imdb_score'], s=10)
 
+# Visualizing Data: PCA component 2 vs IMDB score
 fig3 = plt.figure(figsize = (8,8))
 ax3 = fig3.add_subplot(1,1,1) 
 ax3.set_xlabel('Principal Component 2', fontsize = 15)
 ax3.set_ylabel('IMDB Score', fontsize = 15)
-ax3.set_title('Principal Component vs IMDB Score', fontsize = 20)
+ax3.set_title('Principal Component 2 vs IMDB Score', fontsize = 20)
 plt.scatter(finalDf['principal component 2'], finalDf['imdb_score'], s=10)
 
+# Variance
+print(pca.explained_variance_ratio_)
+print(np.sum(pca.explained_variance_ratio_))
+
+## There are some outliers in the data where principal component 1 is larger than abs(10). 
+## Remove those points and try again to see if the spread is better
+indices_outlier = finalDf['principal component 2'].le(-10) 
+newdf = df.drop(index = indices_outlier[indices_outlier].index)
+newdf.reset_index(drop=True,inplace=True)
+indices_outlier = finalDf['principal component 2'].ge(10)
+newdf = newdf.drop(index = indices_outlier[indices_outlier].index)
+newdf.reset_index(drop=True,inplace=True)
+
+df = newdf
