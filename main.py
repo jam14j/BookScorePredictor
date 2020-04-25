@@ -1,18 +1,17 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Apr 24 17:16:17 2020
+'''
+Code by: Milan Bidare and Juan Antonio Martinez
+CME250: Introduction to Machine Learning
+Part I: Data exploration
+'''
+import pandas as pd
+from remove_outliers import remove_outliers
+from PCA import PCA
+from plot_PCA import plot_PCA
+from cluster_on_PCA import cluster_on_PCA
 
-@author: Admin
-"""
-if __name__ == "__main__":
-    
-    import pandas as pd
-    from remove_outliers import remove_outliers 
-    from PCA import PCA
-    from plot_PCA import plot_PCA
-    
+if __name__ == "__main__": 
     # Loading required data prettily
-    url = "C:/Users/mibid/Documents/GitHub/BookScorePredictor/movie_metadata.csv"
+    url = "movie_metadata.csv"
     col = ['num_critic_for_reviews', 'duration','gross','facenumber_in_poster','budget','movie_facebook_likes','imdb_score']
     df = pd.read_csv(url, skipinitialspace=True, usecols=col)
     df.rename(
@@ -42,3 +41,4 @@ if __name__ == "__main__":
         if num_outliers == 0:
             break
     plot_PCA(finalDf, (-4,14), (-4,10)) # Plot final PCA with no outliers
+    cluster_on_PCA(finalDf)

@@ -14,10 +14,8 @@ def cluster_on_PCA(finalDf):
     fig = plt.figure()
     plt.xlabel("Principal Component 1")
     plt.ylabel("Principal Component 2")
-    colors = ['r','orange','yellowgreen', 'green', 'cyan', 'steelblue',
-              'midnightblue', 'mediumpurple','violet','black']
+    colors = ['midnightblue','yellowgreen', 'cyan', 'r', 'gray']
     for i in range(k):
-        print(i)
         plt.scatter(
             X[y_km == i, 0], X[y_km == i, 1],
             s=50, c=colors[i],
@@ -32,7 +30,6 @@ def cluster_on_PCA(finalDf):
         label='centroids'
     )
     plt.title("Kmeans clustering performed on the reduced data")
-    plt.legend(scatterpoints=1)
+    plt.legend(scatterpoints=1, frameon=True)
     plt.grid()
-    print('show')
     plt.show()
