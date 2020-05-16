@@ -16,7 +16,7 @@ import seaborn as sns
 from sklearn import linear_model
 import matplotlib.pyplot as plt
 
-def lin_reg(a, x_train, y_train, x_val, y_val):
+def lin_reg(x_train, y_train, x_val, y_val):
     # train a model
     lm = linear_model.LinearRegression()
     model = lm.fit(x_train, y_train)
@@ -29,9 +29,10 @@ def lin_reg(a, x_train, y_train, x_val, y_val):
     x = np.linspace(2, 10, 1000)
     plt.plot(x,x,'red');
     plt.xlabel("True Values")
-    plt.ylabel("Predictions of Train Set")
+    plt.ylabel("Predictions")
+    plt.title("LR Performance on Train Set")
     plt.grid()
-    print("Linear Regression Training Accuracy:", model.score(x_train, y_train))
+    print("Linear Regression Train Accuracy:", model.score(x_train, y_train))
            
     # predict on validation set
     plt.figure(2)
@@ -41,6 +42,10 @@ def lin_reg(a, x_train, y_train, x_val, y_val):
     x = np.linspace(2, 10, 1000)
     plt.plot(x,x,'red');
     plt.xlabel("True Values")
-    plt.ylabel("Predictions of Validation Set") 
+    plt.ylabel("Predictions")
+    plt.title("LR Performance on Validation Set")
     plt.grid()
     print("Linear Regression Validation Accuracy:", model.score(x_val, y_val))
+
+    return model
+    
