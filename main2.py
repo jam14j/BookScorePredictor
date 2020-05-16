@@ -50,8 +50,9 @@ if __name__ == "__main__":
     # Linear Regression
     LinModel = lin_reg(x_train, y_train, x_val, y_val)
     print("Linear Regression Test Accuracy:", LinModel.score(x_test, y_test))
-    
-    # mySVM(x_train, x_val, y_train, y_val)
+
+    # Support Vector Machine
+    mySVM(x_train, x_val, y_train, y_val)
     
     # Decision Tree Regression (DTR)
     train_score_DTR, val_score_DTR, ccp_alpha = myDTR(x_train, x_val, y_train, y_val)
@@ -85,6 +86,3 @@ if __name__ == "__main__":
     plt.ylabel("Predictions")
     plt.title("DTR Performance on Validation Set")
     plt.grid()
-  
-    
-    

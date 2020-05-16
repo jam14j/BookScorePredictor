@@ -7,7 +7,7 @@ https://towardsdatascience.com/train-test-split-and-cross-validation-in-python-8
 
 import pandas as pd
 import numpy as np
-import seaborn as sns
+# import seaborn as sns
 
 #from remove_outliers import remove_outliers
 #from PCA import PCA
