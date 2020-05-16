@@ -1,8 +1,9 @@
 '''
 Code by: Milan Bidare and Juan Antonio Martinez
 CME250: Introduction to Machine Learning
-Part I: Data exploration
+Part II: Prediction & Selection
 '''
+from mySVM import mySVM
 import pandas as pd
 from sklearn.model_selection import train_test_split
 # from remove_outliers import remove_outliers
@@ -41,3 +42,4 @@ if __name__ == "__main__":
     x_trainval, x_test, y_trainval, y_test = train_test_split(x, y, random_state=0, test_size=0.25)
     x_train, x_val, y_train, y_val = train_test_split(x_trainval,y_trainval, random_state=0, test_size=0.25)
 
+    mySVM(x_train, x_val, y_train, y_val)
